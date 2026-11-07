@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>SMMPro | Account</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+    body{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top left,#3730a3 0,#111827 48%,#020617 100%);color:#0f172a}
+    .auth-card{width:min(100%,430px);background:#fff;border-radius:22px;padding:32px;box-shadow:0 25px 80px #0006}
+    .brand{text-align:center;font-size:30px;font-weight:850;letter-spacing:-1px;color:#111827}
+    .brand span{color:#6366f1}
+    .tagline{text-align:center;color:#64748b;font-size:13px;margin:7px 0 27px}
+    h1{text-align:center;font-size:23px;margin-bottom:7px}
+    .intro{text-align:center;color:#64748b;font-size:14px;margin-bottom:22px}
+    .tabs{display:flex;background:#f1f5f9;padding:4px;border-radius:11px;margin-bottom:22px}
+    .tab{flex:1;border:0;border-radius:8px;padding:11px;background:transparent;color:#64748b;font-weight:700;cursor:pointer}
+    .tab.active{background:#fff;color:#4f46e5;box-shadow:0 1px 5px #0f172a12}
+    .form{display:none}.form.active{display:block}
+    .field{margin-bottom:16px}
+    label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#334155}
+    input{width:100%;padding:13px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px;outline:none;background:#fff;color:#0f172a}
+    input:focus{border-color:#6366f1;box-shadow:0 0 0 3px #6366f11c}
+    input:disabled{background:#f1f5f9}
+    .password-wrap{position:relative}.password-wrap input{padding-right:72px}
+    .toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#4f46e5;font-size:12px;font-weight:700;cursor:pointer;padding:7px}
+    .hint{font-size:11px;color:#64748b;margin-top:6px;line-height:1.45}
+    .strength{height:4px;background:#e2e8f0;border-radius:8px;margin-top:8px;overflow:hidden}
+    .strength-bar{height:100%;width:0;transition:width .2s,background .2s}
+    .btn{width:100%;padding:14px;border:0;border-radius:10px;background:#4f46e5;color:#fff;font-size:15px;font-weight:750;cursor:pointer;margin-top:4px}
+    .btn:hover{background:#4338ca}.btn:disabled{opacity:.6;cursor:wait}
+    .message{display:none;padding:11px 12px;border-radius:9px;font-size:13px;line-height:1.45;margin-bottom:15px}
+    .message.show{display:block}.message.error{background:#fee2e2;color:#991b1b}.message.success{background:#dcfce7;color:#166534}.message.info{background:#e0e7ff;color:#3730a3}
+    .footnote{text-align:center;font-size:12px;color:#94a3b8;margin-top:19px;line-height:1.5}
+    .hidden{display:none!important}
+    @media(max-width:420px){.auth-card{padding:26px 20px}.brand{font-size:27px}}
+  </style>
+</head>
+<body>
+  <main class="auth-card">
+    <div class="brand">SMM<span>Pro</span></div>
+    <p class="tagline">Your account, securely managed</p>
+
+    <div class="tabs" role="tablist" aria-label="Account options">
+      <button class="tab active" id="loginTab" type="button" role="tab" aria-selected="true">Sign In</button>
+      <button class="tab" id="signupTab" type="button" role="tab" aria-selected="false">Create Account</button>
+    </div>
+
+    <section class="form active" id="loginForm">
+      <h1>Welcome back</h1>
+      <p class="intro">Sign in to continue to your account.</p>
+      <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
+      <form id="loginFormElement">
+        <div class="field">
+          <label for="loginEmail">Email address</label>
+          <input id="loginEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <div class="password-wrap">
+            <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+            <button class="toggle" type="button" data-toggle="loginPassword">Show</button>
+          </div>
+        </div>
+        <button class="btn" id="loginButton" type="submit">Sign In</button>
+      </form>
+    </section>
+
+    <section class="form" id="signupForm">
+      <h1>Create your account</h1>
+      <p class="intro">Choose a unique username to get started.</p>
+      <div id="signupMessage" class="message" role="status" aria-live="polite"></div>
+      <form id="signupFormElement">
+        <div class="field">
+          <label for="signupUsername">Username</label>
+          <input id="signupUsername" type="text" maxlength="20" minlength="3" autocomplete="username" placeholder="e.g. rohit_123" required>
+          <p class="hint">3–20 characters. Use letters, numbers, and underscores only. Usernames are unique and cannot be claimed by another account.</p>
+        </div>
+        <div class="field">
+          <label for="signupEmail">Email address</label>
+          <input id="signupEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="signupPassword">Password</label>
+          <div class="password-wrap">
+            <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Create a strong password" required>
+            <button class="toggle" type="button" data-toggle="signupPassword">Show</button>
+          </div>
+          <div class="strength"><div class="strength-bar" id="strengthBar"></div></div>
+          <p class="hint">Use at least 8 characters.</p>
+        </div>
+        <div class="field">
+          <label for="signupConfirm">Confirm password</label>
+          <div class="password-wrap">
+            <input id="signupConfirm" type="password" autocomplete="new-password" placeholder="Enter your password again" required>
+            <button class="toggle" type="button" data-toggle="signupConfirm">Show</button>
+          </div>
+        </div>
+        <button class="btn" id="signupButton" type="submit">Create Account</button>
+      </form>
+    </section>
+
+    <p class="footnote">Your username is reserved in the shared database, not just on this device.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Add your Supabase project details here.
+    const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+    const configured = SUPABASE_URL.startsWith("https://") &&
+      !SUPABASE_URL.includes("YOUR_") && !SUPABASE_ANON_KEY.includes("YOUR_");
+
+    const supabaseClient = configured
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function showMessage(id, text, type = "error") {
+      const box = $(id);
+      box.textContent = text;
+      box.className = `message show ${type}`;
+    }
+    function clearMessage(id) {
+      const box = $(id);
+      box.textContent = "";
+      box.className = "message";
+    }
+    function switchTab(tab) {
+      const login = tab === "login";
+      $("loginForm").classList.toggle("active", login);
+      $("signupForm").classList.toggle("active", !login);
+      $("loginTab").classList.toggle("active", login);
+      $("signupTab").classList.toggle("active", !login);
+      $("loginTab").setAttribute("aria-selected", String(login));
+      $("signupTab").setAttribute("aria-selected", String(!login));
+      clearMessage("loginMessage");
+      clearMessage("signupMessage");
+    }
+    $("loginTab").addEventListener("click", () => switchTab("login"));
+    $("signupTab").addEventListener("click", () => switchTab("signup"));
+
+    document.querySelectorAll("[data-toggle]").forEach(button => {
+      button.addEventListener("click", () => {
+        const input = $(button.dataset.toggle);
+        const reveal = input.type === "password";
+        input.type = reveal ? "text" : "password";
+        button.textContent = reveal ? "Hide" : "Show";
+      });
+    });
+
+    $("signupPassword").addEventListener("input", () => {
+      const value = $("signupPassword").value;
+      let score = 0;
+      if (value.length >= 8) score++;
+      if (value.length >= 12) score++;
+      if (/[A-Z]/.test(value)) score++;
+      if (/[0-9]/.test(value)) score++;
+      if (/[^A-Za-z0-9]/.test(value)) score++;
+      const bar = $("strengthBar");
+      bar.style.width = `${score * 20}%`;
+      bar.style.background = score <= 2 ? "#ef4444" : score <= 3 ? "#f59e0b" : "#22c55e";
+    });
+
+    function friendlyError(error) {
+      const message = (error?.message || "").toLowerCase();
+      if (message.includes("username_taken") || message.includes("duplicate key") || message.includes("profiles_username_lower_unique")) {
+        return "That username is already taken. Please choose another one.";
+      }
+      if (message.includes("invalid login credentials")) return "Incorrect email address or password.";
+      if (message.includes("user already registered")) return "An account with this email already exists.";
+      if (message.includes("password should be")) return "Your password must be at least 8 characters long.";
+      if (message.includes("rate limit")) return "Too many attempts. Please wait a moment and try again.";
+      return error?.message || "Something went wrong. Please try again.";
+    }
+
+    $("signupFormElement").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage("signupMessage");
+
+      if (!configured) {
+        showMessage("signupMessage", "Setup required: add your Supabase Project URL and anon key in this file, then run the SQL setup script.", "info");
+        return;
+      }
+
+      const username = $("signupUsername").value.trim().toLowerCase();
+      const email = $("signupEmail").value.trim().toLowerCase();
+      const password = $("signupPassword").value;
+      const confirm = $("signupConfirm").value;
+
+      if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+        showMessage("signupMessage", "Username must be 3–20 characters and contain only letters, numbers, or underscores.");
+        return;
+      }
+      if (password.length < 8) {
+        showMessage("signupMessage", "Password must be at least 8 characters long.");
+        return;
+      }
+      if (password !== confirm) {
+        showMessage("signupMessage", "The passwords do not match.");
+        return;
+      }
+
+      const button = $("signupButton");
+      button.disabled = true;
+      button.textContent = "Creating account...";
+
+      try {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: { data: { username } }
+        });
+        if (error) throw error;
+
+        if (data.session) {
+          showMessage("signupMessage", "Your account has been created successfully. You are now signed in.", "success");
+        } else {
+          showMessage("signupMessage", "Account created. Check your email to confirm your address before signing in.", "success");
+        }
+        $("signupFormElement").reset();
+        $("strengthBar").style.width = "0";
+      } catch (error) {
+        showMessage("signupMessage", friendlyError(error));
+      } finally {
+        button.disabled = false;
+        button.textContent = "Create Account";
+      }
+    });
+
+    $("loginFormElement").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage("loginMessage");
+
+      if (!configured) {
+        showMessage("loginMessage", "Setup required: add your Supabase Project URL and anon key in this file, then run the SQL setup script.", "info");
+        return;
+      }
+
+      const email = $("loginEmail").value.trim().toLowerCase();
+      const password = $("loginPassword").value;
+      const button = $("loginButton");
+      button.disabled = true;
+      button.textContent = "Signing in...";
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        const { data: profile, error: profileError } = await supabaseClient
+          .from("profiles")
+          .select("username")
+          .eq("id", data.user.id)
+          .single();
+
+        if (profileError) throw profileError;
+        showMessage("loginMessage", `Welcome back, ${profile.username}! You are signed in.`, "success");
+
+        // After creating your dashboard, uncomment and update this line:
+        // window.location.href = "dashboard.html";
+      } catch (error) {
+        showMessage("loginMessage", friendlyError(error));
+      } finally {
+        button.disabled = false;
+        button.textContent = "Sign In";
+      }
+    });
+  </script>
+</body>
+</html>
